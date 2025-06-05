@@ -227,6 +227,11 @@
       </svg>
       <h1>Hello, {{ title }}</h1>
       <p>Congratulations! Your app is running. 🎉</p>
+      <button (click)="handleClick()"[disabled]="isbuttondisabled"> oii</button>
+      <div class="card flex justify-center">
+    <p-button (onclick)="handleClick()" [disabled]=isbuttondisabled label="Check" />
+</div>
+      <p> message {{buttonClickedMessage}}</p>
     </div>
     <div class="divider" role="separator" aria-label="Divider"></div>
     <div class="right-side">

@@ -1,2 +1,20 @@
-<app-event-create (eventCreated)="onEventCreated($event)"></app-event-create>
-<app-event-read [eventos]="eventos"></app-event-read> 
+<nav class="navbar">
+  <div class="logo">
+    <span>Vital</span>
+  </div>
+  <ul>
+    <li><a href="#">Início</a></li>
+    <li><a href="#">Eventos</a></li>
+    <li><a href="#">Sobre</a></li>
+  </ul>
+</nav>
+
+<main>
+    <app-event-create (eventCreated)="onEventCreated($event)"></app-event-create>
+    <app-event-read [eventos]="eventos"></app-event-read> 
+
+</main>
+
+<footer class="footer">
+  <p>© 2025 Vital. Todos os direitos reservados.</p>
+</footer>

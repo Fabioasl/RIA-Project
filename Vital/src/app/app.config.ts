@@ -6,11 +6,21 @@ import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 
 import { routes } from './app.routes';
+import { CommonModule } from '@angular/common';  
+import { FormsModule } from '@angular/forms';
+
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideClientHydration(withEventReplay()), providePrimeNG({
-            theme: {
-                preset: Aura
-            }
-})]
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideClientHydration(withEventReplay()),
+    providePrimeNG({
+      theme: {
+        preset: Aura
+      }
+    }),
+    CommonModule, 
+    FormsModule,
+  ]
 };

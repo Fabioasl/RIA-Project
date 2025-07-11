@@ -1,5 +1,5 @@
 export interface Evento {
-    id: number;
+    id?: number;
     name: string;
     local: string;
     date: string;

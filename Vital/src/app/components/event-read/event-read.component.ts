@@ -1,31 +1,24 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { Evento } from '../../models/evento.models';
-import { CommonModule } from '@angular/common';
+import { EventoService } from '../../services/eventosService.service';
+import { CommonModule } from '@angular/common';  // Importando CommonModule
+import { FormsModule } from '@angular/forms'; 
 
 @Component({
   selector: 'app-event-read',
-  standalone: true,
-  template: `
-    <div class="event-list-container">
-      <h2>Lista de Eventos</h2>
+  standalone: true, 
+  imports: [CommonModule, FormsModule],  
+  template:`
+  <div class="event-list-container"> 
+    <h2>Lista de Eventos</h2>
       <ul>
         <li *ngFor="let evento of eventos">
-          <div class="evento-info">
-            <i class="pi pi-pencil"> Nome do Evento:<span><strong> {{ evento.name }}</strong></span></i>
-            <div *ngIf="detalhesVisiveis[evento.id]" class="evento-info">
-            <i class="pi pi-calendar"> Data do Evento: <span> {{ evento.date }}</span> </i>
-            <i class="pi pi-map-marker"> Local do Evento:<span> {{ evento.local }}</span></i>
-            <span> Status: {{ evento.isOver ? 'Finalizado' : 'Ativo' }}</span>
-            </div>
-          </div>
-          <button (click)="excluirEvento(evento.id)">Excluir</button>
-          <button (click)="detalharEvento(evento.id)">{{ detalhesVisiveis[evento.id] ? 'Fechar' : 'Detalhar' }}</button>
-          
+          {{ evento.name }} - {{ evento.date }} - {{ evento.local }}
         </li>
       </ul>
-    </div>
+  </div>
   `,
-  styles: [`
+    styles: [`
     .event-list-container {
       background-color: #7d8c7a;
       padding: 2rem;
@@ -84,23 +77,34 @@ import { CommonModule } from '@angular/common';
       margin-right: 5px; /* Espaço entre ícone e texto */
 }
   `],
-  imports: [CommonModule]
 })
-export class EventReadComponent {
+export class EventReadComponent implements OnInit{
   @Input() eventos: Evento[] = [];
-  @Input() eventoSelecionado: Evento | null = null;
-  @Input() detalhesVisiveis: { [key: number]: boolean } = {};
-
-
-  excluirEvento(id: number): void {
-    this.eventos = this.eventos.filter(evento => evento.id !== id);
+  @Input()  evento?: Evento;
+  
+  constructor(private eventoService : EventoService) {}
+  ngOnInit(): void {
+      
   }
-  detalharEvento(id: number): void {
-    this.detalhesVisiveis[id] = !this.detalhesVisiveis[id];
-    if (!this.eventoSelecionado?.id) {
-      this.eventoSelecionado = this.eventos.find(evento => evento.id === id) || null;
-    }
-
+  carregarEventos(): void{
+    this.eventoService.getEventos().subscribe({
+      next: (data) => {
+        this.eventos = data;
+      },
+      error : (err  : any) => {
+        console.error('Erro ao carregar eventos', err);
+      }
+    });
   }
+
+  /* implementar futuramente quando tiver rotas 
+  carregarEvento(): void{
+    const id = 
+    this.eventoService.getEvento().subscribe({
+      next: data =>{
+        this.evento = data;
+      }
+    })
+  }
+  */
 }
-

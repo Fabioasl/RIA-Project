@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Evento } from '../../models/evento.models';
-import { CommonModule } from '@angular/common';  // Importando CommonModule
+import { EventoService } from '../../services/eventosService.service';
+import { CommonModule } from '@angular/common';  
 import { FormsModule } from '@angular/forms'; 
 
 @Component({
@@ -8,17 +9,17 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, FormsModule],  
   template:`
-    <form (ngSubmit)="adicionarEvento()" class="form-container">
+    <form (ngSubmit)="criarEvento()" class="form-container">
       <h2 class="form-title">Criar Novo Evento</h2>
 
       <label>
         <i class="pi pi-pencil"> Nome do Evento:</i>
-        <input [(ngModel)]="novoEvento.name" name="nome" type="text" required />
+        <input [(ngModel)]="novoEvento.name" name="name" type="text" required />
       </label>
 
       <label>
         <i class="pi pi-calendar"> Data do Evento: </i>
-        <input [(ngModel)]="novoEvento.date" name="data" type="date" required />
+        <input [(ngModel)]="novoEvento.date" name="date" type="date" required />
       </label>
 
       <label>
@@ -28,7 +29,7 @@ import { FormsModule } from '@angular/forms';
 
       <label class="checkbox-label">
         Evento já aconteceu?
-        <input type="checkbox" [(ngModel)]="novoEvento.isOver"  type="checkbox" name="isOver" />
+        <input type="checkbox" [(ngModel)]="novoEvento.isOver" name="isOver" />
       </label>
 
       <button type="submit">Adicionar Evento</button>
@@ -124,19 +125,23 @@ import { FormsModule } from '@angular/forms';
   }
 `]
 })
-export class EventCreateComponent {
-  novoEvento: Evento = { id: 0, name: '', date: '', local: '' , isOver: false };
-
-  @Output() eventCreated = new EventEmitter<Evento>(); 
-
-  adicionarEvento(): void {
-
-    const novoId = Date.now(); 
-    const eventoCriado: Evento = { ...this.novoEvento, id: novoId };
-
-    this.eventCreated.emit(eventoCriado);
-    console.log('Evento Criado:', eventoCriado);
-
-    this.novoEvento = { id: 0, name: '', date: '', local: '' , isOver: false};
+export class EventCreateComponent{
+  
+  constructor(private eventoService : EventoService) {}
+    novoEvento: Evento = {
+    name: '',
+    local: '',
+    date: '',
+    isOver: false,
+  };
+  criarEvento(): void{
+    this.eventoService.postEvento(this.novoEvento).subscribe({
+      next: (data: Evento) =>{
+        console.log("Evento criado com sucesso!", data);
+      },
+      error : (err: any) =>{
+        console.log("Algo deu errado ao criar eventos", err);
+      }
+    });
   }
 }

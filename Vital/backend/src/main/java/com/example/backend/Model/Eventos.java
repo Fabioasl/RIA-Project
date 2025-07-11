@@ -1,12 +1,18 @@
+// Só pra não esquecer "mvn clean install" e para dar quando vc por novas Dependências e mvn spring-boot:run é para rodar o projeto
 package com.example.backend.Model;
 import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.*;
 @Entity
+
 
 public class Eventos{
     // Atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
     private LocalDate eventDate;
     private String eventName;
@@ -53,10 +59,10 @@ public class Eventos{
         this.eventLocal = newEventLocal;
     }
 
-    public Boolean geteventIsOver(){
+    public Boolean getEventIsOver(){
         return this.eventIsOver;
     }
-    public void seteventIsOver(Boolean newEventIsOver){
+    public void setEventIsOver(Boolean newEventIsOver){
         this.eventIsOver = newEventIsOver;
     }
 }

@@ -14,22 +14,22 @@ import { FormsModule } from '@angular/forms';
 
       <label>
         <i class="pi pi-pencil"> Nome do Evento:</i>
-        <input [(ngModel)]="novoEvento.name" name="name" type="text" required />
+        <input [(ngModel)]="novoEvento.eventName" name="name" type="text" required />
       </label>
 
       <label>
         <i class="pi pi-calendar"> Data do Evento: </i>
-        <input [(ngModel)]="novoEvento.date" name="date" type="date" required />
+        <input [(ngModel)]="novoEvento.eventDate" name="date" type="date" required />
       </label>
 
       <label>
         <i class="pi pi-map-marker"> Local do Evento: </i>
-        <input [(ngModel)]="novoEvento.local" name="local" type="text" required />
+        <input [(ngModel)]="novoEvento.eventLocal" name="local" type="text" required />
       </label>
 
       <label class="checkbox-label">
         Evento já aconteceu?
-        <input type="checkbox" [(ngModel)]="novoEvento.isOver" name="isOver" />
+        <input type="checkbox" [(ngModel)]="novoEvento.eventIsOver" name="isOver" />
       </label>
 
       <button type="submit">Adicionar Evento</button>
@@ -126,13 +126,14 @@ import { FormsModule } from '@angular/forms';
 `]
 })
 export class EventCreateComponent{
-  
+  routerName = 'criar-evento';
   constructor(private eventoService : EventoService) {}
     novoEvento: Evento = {
-    name: '',
-    local: '',
-    date: '',
-    isOver: false,
+    eventName: '',
+    eventLocal: '',
+    eventDate: '',
+    eventIsOver: false,
+   
   };
   criarEvento(): void{
     this.eventoService.postEvento(this.novoEvento).subscribe({

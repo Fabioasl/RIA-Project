@@ -9,7 +9,7 @@ import { EventCreateComponent } from './components/event-create/event-create.com
 
 @Component({
   selector: 'app-root, button-demo',
-  imports: [RouterOutlet, ButtonModule, EventReadComponent, EventCreateComponent],
+  imports: [RouterOutlet, ButtonModule,],
   templateUrl: './app.component.html',
   styles: [`:host {
   display: block;

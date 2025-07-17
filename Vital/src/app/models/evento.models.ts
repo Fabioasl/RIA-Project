@@ -1,7 +1,7 @@
 export interface Evento {
-    id?: number;
-    name: string;
-    local: string;
-    date: string;
-    isOver?: boolean;
+  id?: number;
+  eventName: string;
+  eventLocal: string;
+  eventDate: string; 
+  eventIsOver: boolean;
 }

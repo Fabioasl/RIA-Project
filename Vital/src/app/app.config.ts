@@ -3,11 +3,10 @@ import { provideRouter } from '@angular/router';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
-
 import { routes } from './app.routes';
 
-// ** IMPORTAR provideHttpClient **
 import { provideHttpClient } from '@angular/common/http';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,6 +19,5 @@ export const appConfig: ApplicationConfig = {
       }
     }),
     provideHttpClient(),
-
   ]
 };

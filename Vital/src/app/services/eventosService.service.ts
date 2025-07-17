@@ -25,7 +25,7 @@ export class EventoService{
   }
 
   putEvento(evento: Evento): Observable<Evento>{ 
-    return this.http.put<Evento>(`${this.apiUrl}`, evento)
+    return this.http.put<Evento>(`${this.apiUrl}/${evento.id}`, evento)
   }
 
   deleteEvento(id: number): Observable<Evento>{

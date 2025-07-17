@@ -1,18 +1,16 @@
 <nav class="navbar">
   <div class="logo">
-    <span>Vital</span>
+    <h1>Vital</h1>
   </div>
   <ul>
-    <li><a href="#">Início</a></li>
+    <li><a href="https://improved-robot-x5rp55rq6xgg3pq94-4200.app.github.dev/">Início</a></li>
     <li><a href="#">Eventos</a></li>
     <li><a href="#">Sobre</a></li>
   </ul>
 </nav>
 
 <main>
-    <app-event-create (eventCreated)="onEventCreated($event)"></app-event-create>
-    <app-event-read [eventos]="eventos"></app-event-read> 
-
+  <router-outlet></router-outlet>
 </main>
 
 <footer class="footer">

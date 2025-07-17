@@ -1,36 +1,39 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Evento } from '../../models/evento.models';
-import { CommonModule } from '@angular/common';  // Importando CommonModule
+import { EventoService } from '../../services/eventosService.service';
+import { CommonModule } from '@angular/common';  
 import { FormsModule } from '@angular/forms'; 
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-create',
   standalone: true,
   imports: [CommonModule, FormsModule],  
   template:`
-    <form (ngSubmit)="adicionarEvento()" class="form-container">
+    <form (ngSubmit)="criarEvento()" class="form-container">
       <h2 class="form-title">Criar Novo Evento</h2>
 
       <label>
         <i class="pi pi-pencil"> Nome do Evento:</i>
-        <input [(ngModel)]="novoEvento.name" name="nome" type="text" required />
+        <input [(ngModel)]="novoEvento.eventName" name="name" type="text" required />
       </label>
 
       <label>
         <i class="pi pi-calendar"> Data do Evento: </i>
-        <input [(ngModel)]="novoEvento.date" name="data" type="date" required />
+        <input [(ngModel)]="novoEvento.eventDate" name="date" type="date" required />
       </label>
 
       <label>
         <i class="pi pi-map-marker"> Local do Evento: </i>
-        <input [(ngModel)]="novoEvento.local" name="local" type="text" required />
+        <input [(ngModel)]="novoEvento.eventLocal" name="local" type="text" required />
       </label>
 
       <label class="checkbox-label">
         Evento já aconteceu?
-        <input type="checkbox" [(ngModel)]="novoEvento.isOver"  type="checkbox" name="isOver" />
+        <input type="checkbox" [(ngModel)]="novoEvento.eventIsOver" name="isOver" />
       </label>
 
+        
       <button type="submit">Adicionar Evento</button>
     </form>
   `,
@@ -99,11 +102,12 @@ import { FormsModule } from '@angular/forms';
     font-size: 0.95rem;
   }
 
-  input[type="checkbox"] {
-    transform: scale(1.2);
-    accent-color: #ffffff;
-    cursor: pointer;
-  }
+    input[type="checkbox"] {
+      transform: scale(1.2);
+      accent-color: #ffffff;
+      cursor: pointer;
+      margin-left: 0.5rem;
+    }
 
   button {
     background-color: #ffffff;
@@ -124,19 +128,25 @@ import { FormsModule } from '@angular/forms';
   }
 `]
 })
-export class EventCreateComponent {
-  novoEvento: Evento = { id: 0, name: '', date: '', local: '' , isOver: false };
+export class EventCreateComponent{
 
-  @Output() eventCreated = new EventEmitter<Evento>(); 
 
-  adicionarEvento(): void {
-
-    const novoId = Date.now(); 
-    const eventoCriado: Evento = { ...this.novoEvento, id: novoId };
-
-    this.eventCreated.emit(eventoCriado);
-    console.log('Evento Criado:', eventoCriado);
-
-    this.novoEvento = { id: 0, name: '', date: '', local: '' , isOver: false};
+  constructor(private eventoService : EventoService, private router: Router) {}
+    novoEvento: Evento = {
+    eventName: '',
+    eventLocal: '',
+    eventDate: '',
+    eventIsOver: false,
+  };
+  criarEvento(): void{
+    this.eventoService.postEvento(this.novoEvento).subscribe({
+      next: (data: Evento) =>{
+        console.log("Evento criado com sucesso!", data);
+        this.router.navigate(['/']);
+      },
+      error : (err: any) =>{
+        console.log("Algo deu errado ao criar eventos", err);
+      }
+    });
   }
 }

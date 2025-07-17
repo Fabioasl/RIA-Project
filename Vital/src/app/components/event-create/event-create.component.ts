@@ -3,6 +3,7 @@ import { Evento } from '../../models/evento.models';
 import { EventoService } from '../../services/eventosService.service';
 import { CommonModule } from '@angular/common';  
 import { FormsModule } from '@angular/forms'; 
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-create',
@@ -32,6 +33,7 @@ import { FormsModule } from '@angular/forms';
         <input type="checkbox" [(ngModel)]="novoEvento.eventIsOver" name="isOver" />
       </label>
 
+        
       <button type="submit">Adicionar Evento</button>
     </form>
   `,
@@ -100,11 +102,12 @@ import { FormsModule } from '@angular/forms';
     font-size: 0.95rem;
   }
 
-  input[type="checkbox"] {
-    transform: scale(1.2);
-    accent-color: #ffffff;
-    cursor: pointer;
-  }
+    input[type="checkbox"] {
+      transform: scale(1.2);
+      accent-color: #ffffff;
+      cursor: pointer;
+      margin-left: 0.5rem;
+    }
 
   button {
     background-color: #ffffff;
@@ -126,19 +129,20 @@ import { FormsModule } from '@angular/forms';
 `]
 })
 export class EventCreateComponent{
-  routerName = 'criar-evento';
-  constructor(private eventoService : EventoService) {}
+
+
+  constructor(private eventoService : EventoService, private router: Router) {}
     novoEvento: Evento = {
     eventName: '',
     eventLocal: '',
     eventDate: '',
     eventIsOver: false,
-   
   };
   criarEvento(): void{
     this.eventoService.postEvento(this.novoEvento).subscribe({
       next: (data: Evento) =>{
         console.log("Evento criado com sucesso!", data);
+        this.router.navigate(['/']);
       },
       error : (err: any) =>{
         console.log("Algo deu errado ao criar eventos", err);

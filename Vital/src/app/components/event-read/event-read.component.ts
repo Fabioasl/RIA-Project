@@ -19,7 +19,7 @@ import { RouterModule } from '@angular/router';
             <span class="nome">{{ evento.eventName }}</span>
             <span class="data">{{ evento.eventDate | date:'dd/MM/yyyy' }}</span>
             <span class="local">{{ evento.eventLocal }}</span>
-            <span class="local">{{ evento.eventIsOver ? 'Ativo' : 'Finalizado' }}</span>
+            <span class="local">{{ evento.eventIsOver ? 'Finalizado' : 'Ativo' }}</span>
           </div>
           <div class="evento-acoes">
             <button *ngIf="evento.id !== undefined" (click)="irParaGerenciarEvento(evento.id!)" type="button">

@@ -13,8 +13,9 @@ import { FormsModule } from '@angular/forms';
 
     <form (ngSubmit)="salvar()">
       <div>
-        <label for="eventName">Nome:</label>
+        <label for="eventName">Novo nome:</label>
         <input
+          type="text"
           id="eventName"
           name="eventName"
           [(ngModel)]="evento.eventName"
@@ -23,8 +24,9 @@ import { FormsModule } from '@angular/forms';
       </div>
 
       <div>
-        <label for="eventLocal">Local:</label>
+        <label for="eventLocal">Novo local:</label>
         <input
+          type="text"
           id="eventLocal"
           name="eventLocal"
           [(ngModel)]="evento.eventLocal"
@@ -33,7 +35,7 @@ import { FormsModule } from '@angular/forms';
       </div>
 
       <div>
-        <label for="eventDate">Data:</label>
+        <label for="eventDate">Nova data:</label>
         <input
           id="eventDate"
           name="eventDate"
@@ -45,7 +47,7 @@ import { FormsModule } from '@angular/forms';
 
       <div>
         <label>
-          Evento encerrado:
+          Evento já aconteceu?
           <input
             type="checkbox"
             [(ngModel)]="evento.eventIsOver"
@@ -54,7 +56,7 @@ import { FormsModule } from '@angular/forms';
         </label>
       </div>
 
-      <button type="submit">Salvar</button>
+      <button type="submit">Salvar atualizações</button>
     </form>
   `,
   styles: [`
@@ -151,6 +153,7 @@ export class EventUpdateComponent implements OnInit {
     private eventoService: EventoService,
     private route: ActivatedRoute,
     private router: Router
+
   ) {}
 
   ngOnInit(): void {
@@ -172,6 +175,7 @@ export class EventUpdateComponent implements OnInit {
     this.eventoService.putEvento(this.evento).subscribe({
       next: () => {
         console.log('Evento atualizado com sucesso!');
+        this.router.navigate(['/']);
       },
       error: (err) => {
         console.error('Erro ao atualizar o evento:', err);

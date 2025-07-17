@@ -12,9 +12,10 @@ import { EventCreateComponent } from './components/event-create/event-create.com
   imports: [RouterOutlet, ButtonModule,],
   templateUrl: './app.component.html',
   styles: [`:host {
-  display: block;
+  display: flex;
+  flex-direction: column;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #ffffff;
+  background-color: #cccccc;
   min-height: 100vh;
 }
 
@@ -49,6 +50,7 @@ li a:hover {
 
 main {
   padding: 2rem 1rem;
+  flex: 1;
 }
 
 @media (max-width: 600px) {
@@ -80,16 +82,7 @@ main {
 `],
 })
 export class AppComponent {
-  title = 'Vital';
-  eventos: Evento[] = [];  
 
-  onEventCreated(evento: Evento): void {
-    this.eventos.push(evento); 
-    console.log('Evento Recebido no Pai:', evento);  
-  }
-  onEventDelete(id: number): void {
-    this.eventos = this.eventos.filter(evento => evento.id !== id);
-  }
   }
 
 
